@@ -1,4 +1,5 @@
 import { useMutation } from '@apollo/react-hoc';
+import { useRouter } from 'next/dist/client/router';
 import React, { useEffect } from 'react';
 import Swal from 'sweetalert2';
 import CartItem from '../components/cards/cartitem';
@@ -8,7 +9,7 @@ import { useCartSync } from '../src/hooks/order';
 
 export default function Cart() {
   const { items, amount, vat, setItem, setAmount, setVat } = useCartSync();
-
+  const router = useRouter()
   const [createOrder, { loading }] = useMutation(CREATE_ORDER, {
     onCompleted: (data) => {
       console.log(data);
@@ -20,9 +21,14 @@ export default function Cart() {
           if (typeof window !== 'undefined') {
             localStorage.removeItem('cart');
           }
-          setItem([]);
-          setAmount(0);
-          setVat(0);
+          setItem(() => {
+            setAmount(0);
+            setVat(0);
+            router.push('/');
+            return []
+          });
+
+
         })
         return;
       }
