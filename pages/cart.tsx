@@ -1,10 +1,53 @@
+import { useMutation } from '@apollo/react-hoc';
 import React, { useEffect } from 'react';
+import Swal from 'sweetalert2';
 import CartItem from '../components/cards/cartitem';
 import LayoutWrapper from '../components/layout';
+import { CREATE_ORDER } from '../components/querys/order';
 import { useCartSync } from '../src/hooks/order';
 
 export default function Cart() {
   const { items, amount, vat, setItem, setAmount, setVat } = useCartSync();
+
+  const [createOrder, { loading }] = useMutation(CREATE_ORDER, {
+    onCompleted: (data) => {
+      console.log(data);
+      if (data && data.createOrder && data.createOrder._id) {
+        Swal.fire({
+          title: 'Order Complate!',
+          icon: 'success'
+        }).then(() => {
+          if (typeof window !== 'undefined') {
+            localStorage.removeItem('cart');
+          }
+          setItem([]);
+          setAmount(0);
+          setVat(0);
+        })
+        return;
+      }
+    }
+  });
+
+  const handleCreateOrder = () => {
+    let dataSend = {
+      items: [...items].map(item => {
+        return {
+          pid: item.id,
+          name: item.name,
+          price: item.price,
+          qty: item.qty
+        }
+      }),
+      amount,
+      vat
+    }
+    createOrder({
+      variables: {
+        ...dataSend
+      }
+    })
+  }
 
   useEffect(() => {
     if (items.length > -1) {
@@ -90,7 +133,10 @@ export default function Cart() {
                   <span className="font-hkbold text-secondary">{(amount + vat).toLocaleString()}</span>
                 </div>
                 <div>
-                  <button className="bg-blue-500 text-white hover:bg-blue-700 w-full mt-8 py-2">
+                  <button onClick={handleCreateOrder} disabled={loading} className={"bg-blue-500 text-white hover:bg-blue-700 w-full mt-8 py-2" + (loading ? '  opacity-50' : '')}>{loading ? <svg className="animate-spin inline mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg> : null}
                     PROCEED TO CHECKOUT
 </button>
                 </div>

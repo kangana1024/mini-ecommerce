@@ -124,27 +124,33 @@ Query Value
 
 ```json
 {
-  "pagination": {"offset": 0, "first": 10}
+  "pagination": { "offset": 0, "first": 10 }
 }
 ```
 
 #### CREATE ORDER
 
 ```gql
-mutation {
-  createOrder(
-    items: [
-      {
-        pid: "5f92b1628390263e9fd52ade"
-        name: "Awesome Granite Chair"
-        price: 54.00
-        qty: 3
-      }
-    ]
-    amount: 162.00
-    vat: 11.34
-  ) {
+mutation createOrder($items: [OrderInputItem!], $amount: Float!, $vat: Float!) {
+  createOrder(items: $items, amount: $amount, vat: $vat) {
     _id
   }
+}
+```
+
+Query Value
+
+```json
+{
+  "items": [
+    {
+      "pid": "5f92b1628390263e9fd52ade",
+      "name": "Awesome Granite Chair",
+      "price": 54.0,
+      "qty": 3
+    }
+  ],
+  "amount": 162.0,
+  "vat": 11.34
 }
 ```
