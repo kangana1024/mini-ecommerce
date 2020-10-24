@@ -94,11 +94,11 @@ yarn start
 
 ## Frontend Endpoint
 
-[a link](http://localhost:3000)
+[localhost:3000](http://localhost:3000)
 
 ## Backend Endpoint
 
-[a link](http://localhost:3000/api/graphql)
+[localhost:3000/api/graphql](http://localhost:3000/api/graphql)
 
 ### Demo Script
 
