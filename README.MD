@@ -120,6 +120,14 @@ query($pagination: PaginationArg!) {
 }
 ```
 
+Query Value
+
+```json
+{
+  "pagination": {"offset": 0, "first": 10}
+}
+```
+
 #### CREATE ORDER
 
 ```gql
