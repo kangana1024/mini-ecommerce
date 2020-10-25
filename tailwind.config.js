@@ -1,4 +1,5 @@
 module.exports = {
+  purge: { layers: ['utilities', 'base', 'components'], content: ['./components/**/*.{js,ts,jsx,tsx}', './pages/**/*.{js,ts,jsx,tsx}'] },
   theme: {
     screens: {
       sm: '640px',
