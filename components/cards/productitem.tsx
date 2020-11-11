@@ -33,7 +33,7 @@ const ProductItem = (props: IProductItem) => {
       <a href="#" className="relative">
         <LazyLoad height={300} width={400}>
           <div className="aspect-ratio-4/3 bg-gray-700"></div>
-          <img className="hover:grow hover:shadow-lg absolute left-0 top-0 w-full h-full object-cover" alt={props.name} src={props.image} /></LazyLoad>
+          <img className="hover:grow hover:shadow-lg absolute left-0 top-0 w-full h-auto object-cover" alt={props.name} src={props.image} /></LazyLoad>
         <div className="pt-3 flex items-center justify-between">
           <p className="">{props.name}</p>
           <button type="button" onClick={handleCart}>
