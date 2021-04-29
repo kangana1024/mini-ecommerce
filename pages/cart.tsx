@@ -15,7 +15,7 @@ export default function Cart() {
       console.log(data);
       if (data && data.createOrder && data.createOrder._id) {
         Swal.fire({
-          title: 'Order Complate!',
+          title: 'Order Success!',
           icon: 'success'
         }).then(() => {
           if (typeof window !== 'undefined') {
